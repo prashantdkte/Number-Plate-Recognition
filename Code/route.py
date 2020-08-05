@@ -1,0 +1,81 @@
+from tkinter import *
+import mysql.connector 
+from tkinter import messagebox
+import mysql.connector
+mydb = mysql.connector.connect(
+	host="localhost",
+	user="root",
+	passwd="",
+	database="vehicle")
+mycursor = mydb.cursor()
+def route(text2,text3,text6,text7,r):
+	t1 = text2.get()
+	t2=text3.get()
+	t3=int(text6.get())
+	t4=int(text7.get())
+	root = Tk()
+	root.title("Route")
+	root.config(background="light green")
+	root.geometry("1050x800")
+	heading= Label(root, text="Route",bg="light blue")
+	heading.config(font=("courier",24))
+	heading.grid(row=1,column=0,columnspan=5,padx=10,pady=10)
+	mycursor.execute("select * from lnumber where Number=%s and hour>=%s",(t1,t3))
+	myresult=mycursor.fetchall()
+	heading = Label(root,text="date",bg="light blue")
+	heading.config(font=("Courier",24))
+	heading.grid(row=2,column=1,padx=10,pady=10)
+	heading1=Label(root,text="hr", bg = "light blue")
+	heading1.config(font=("courier",24))
+	heading1.grid(row=2,column=2,padx=10,pady=10)
+	heading2=Label(root,text="min", bg = "light blue")
+	heading2.config(font=("courier",24))
+	heading2.grid(row=2,column=3,padx=10,pady=10)
+	heading3=Label(root,text="no.", bg = "light blue")
+	heading3.config(font=("courier",24))
+	heading3.grid(row=2,column=4,padx=10,pady=10)
+	i=3
+	for x in myresult:
+		heading = Label(root,text=x[0],bg="light blue")
+		heading.config(font=("Courier",24))
+		heading.grid(row=i,column=1,padx=10,pady=10)
+		heading1=Label(root,text=x[1], bg = "light blue")
+		heading1.config(font=("courier",24))
+		heading1.grid(row=i,column=2,padx=10,pady=10)
+		heading2=Label(root,text=x[2], bg = "light blue")
+		heading2.config(font=("courier",24))
+		heading2.grid(row=i,column=3,padx=10,pady=10)
+		heading3=Label(root,text=x[3], bg = "light blue")
+		heading3.config(font=("courier",24))
+		heading3.grid(row=i,column=4,padx=10,pady=10)
+		i+=1
+	
+
+def run(r):
+	r.destroy()
+	r = Tk()
+	r.config(background="light blue")
+	r.geometry("500x370")
+	r.title("Search Vehicle")
+	title = Label(r, text="Search Vehicle",bg="light blue")
+	title.config(font=("Algerian",20))
+	text = Label(r, text="Enter License Plate No.",bg="light blue")
+	text1 = Label(r, text="Enter Date(dd-mm-yyyy)",bg="light blue")
+	text4 = Label(r, text="Enter time(hr)",bg="light blue")
+	text5 = Label(r, text="Enter time(min)",bg="light blue")
+	text2= Entry(r)
+	text3 = Entry(r)
+	text6= Entry(r)
+	text7 = Entry(r)
+	b3 = Button(r,text="Find Route",command=lambda:route(text2,text3,text6,text7,r))	
+	title.grid(row=0,column=0,columnspan=2,padx=50,pady=15)
+	text.grid(row=1,column=0,padx=20,pady=20)
+	text1.grid(row=2,column=0,padx=20,pady=20)
+	text2.grid(row=1,column=1,ipadx=50,padx=30,pady=20)
+	text3.grid(row=2,column=1,ipadx=50,padx=30,pady=20)
+	text4.grid(row=3,column=0,padx=20,pady=20)
+	text5.grid(row=4,column=0,padx=20,pady=20)
+	text6.grid(row=3,column=1,ipadx=50,padx=30,pady=20)
+	text7.grid(row=4,column=1,ipadx=50,padx=30,pady=20)
+	b3.grid(row=5,column=0,columnspan=2,ipadx=60,padx=50,pady=15)
+	mainloop()
